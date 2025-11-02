@@ -65,34 +65,58 @@ def profile_view(request):
     if not request.user.is_authenticated:
         messages.error(request, "You are not logged in. Please log in first.")
         return redirect("login")
-
-    if request.method == 'POST':
-        if request.POST.get("old_email") is None:
-            form = PasswordChangeForm(request.user, request.POST)
-            if form.is_valid():
-                user = form.save()
-                messages.info(request, "Your password has been changed successfully. Please log in again.")
-                return redirect("login")
-            else:
-                messages.error(request, "Failed to change password. Please ensure all fields are correct.")
-        else:
-            # Email change logic
-            if request.POST.get("old_email") == request.user.email:
+    else:
+        if request.method == 'POST':
+            if request.POST.get("type") == "password_change":
+                form = PasswordChangeForm(request.user, request.POST)
+                if form.is_valid():
+                    user = form.save()
+                    messages.info(request, "Your password has been changed successfully. Please log in again.")
+                    return redirect("login")
+                else:
+                    messages.error(request, "Failed to change password. Please ensure all fields are correct.")
+            elif request.POST.get("type") == "email_change":
+                if request.POST.get("old_email") == request.user.email:
+                    try:
+                        User.objects.get(email=request.POST.get("new_email"))
+                        messages.error(request, "Error saving new email. The new email is already in use.")
+                    except ObjectDoesNotExist as odne:
+                        user = User.objects.get(email=request.user.email)
+                        user.email = request.POST.get("new_email")
+                        user.save()
+                        messages.info(request, "Your email has been changed successfully.")
+                else:
+                    messages.error(request, "Email mismatch. Please try again.")
+            elif request.POST.get("type") == "basic_change":
                 try:
-                    User.objects.get(email=request.POST.get("new_email"))
-                    messages.error(request, "Error saving new email. The new email is already in use.")
-                except ObjectDoesNotExist:
-                    user = User.objects.get(email=request.user.email)
-                    user.email = request.POST.get("new_email")
-                    user.save()
-                    messages.info(request, "Your email has been changed successfully.")
-            else:
-                messages.error(request, "Email mismatch. Please try again.")
+                    user = User.objects.get(username=request.POST.get("username"))
 
-        return redirect("profile")
+                    if not request.user.id == user.id:
+                        messages.error(request, "Error saving new username. The username is already in use.")
+                    else:
+                        user = User.objects.get(email=request.user.email)
+                        user.username = request.POST.get("username")
+                        user.first_name = request.POST.get("first_name")
+                        user.last_name = request.POST.get("last_name")
+                        user.save()
+                        messages.info(request, "Your information has been updated successfully.")
+                except ObjectDoesNotExist as odne:
+                    user = User.objects.get(email=request.user.email)
+                    user.username = request.POST.get("username")
+                    user.first_name = request.POST.get("first_name")
+                    user.last_name = request.POST.get("last_name")
+                    user.save()
+                    messages.info(request, "Your information has been updated successfully.")
+
+            return redirect("profile")
 
     pwChange = PasswordChangeForm(request.user)
-    return render(request, "profile/index.html", {"password_form": pwChange})
+    if request.user.is_staff and request.user.is_superuser:
+        users = User.objects.all()
+
+        return render(request, "profile/index.html", {"password_form": pwChange, "users": users})
+    else:
+        return render(request, "profile/index.html", {"password_form": pwChange})
 
 def dashboard_view(request):
     if not request.user.is_authenticated:

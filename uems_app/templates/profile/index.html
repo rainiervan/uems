@@ -65,79 +65,130 @@ Profile | UEMS
                     User
                     {% endif %}
                 </h5>
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editProfile"
+                    id="manageProfileBtn" type="button">Manage Profile</button>
             </div>
         </div>
         <div class="col-md-8">
-            <h1>Actions</h1>
-            <div class="d-flex flex-column align-items-center justify-content-center">
-                {% if messages %}
-                {% for message in messages %}
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                <div class="alert alert-danger" role="alert">
-                    <span>{{ message }}</span>
-                </div>
-                {% else %}
-                <div class="alert alert-dark" role="alert">
-                    <span>{{ message }}</span>
-                </div>
-                {% endif %}
-                {% endfor %}
-                {% endif %}
-                <section id="profile-actions">
-                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#emailChange"
-                        type="button">Change Email</button>
-                    <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#passwordChange"
-                        type="button">Change Password</button>
-                </section>
+            {% if messages %}
+            {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger" role="alert">
+                <span>{{ message }}</span>
             </div>
+            {% else %}
+            <div class="alert alert-dark" role="alert">
+                <span>{{ message }}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            <h1>Your Registered Events</h1>
+            <span>Here is the list of the events you have registered in.</span>
         </div>
     </div>
     {% if request.user.is_superuser or request.user.is_staff %}
     <div class="row">
         <div class="col-md-12">
-            <h1>Statistics</h1>
+            <h1>Advanced Management</h1>
+            <h3 class="fw-bolder">Users</h3>
+            <span>You may manage currently registered users in this table.</span>
+            <table class="table table-bordered table-striped table-hover" id="users-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Registered on</th>
+                        <th>Last Login</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if users %}
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.date_joined }}</td>
+                        <td>{{ user.last_login }}</td>
+                        <td>
+                            <p>test</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
     {% endif %}
 </div>
 
-<div class="modal fade" id="passwordChange" tabindex="-1" aria-labelledby="passwordChangeModal" aria-hidden="true">
+<div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="editProfileModal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content glass">
             <div class="modal-header">
-                <h3 class="fw-bolder">Change Password</h3>
+                <nav class="navbar">
+                    <ul class="nav nav-tabs card-header-tabs d-flex flex-row justify-content-evenly">
+                        <li class="nav-item">
+                            <button class="nav-link active" id="basicTab">Basic</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" id="emailTab">Email</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" id="passwordTab">Password</button>
+                        </li>
+                    </ul>
+                </nav>
                 <button class="btn-close" data-bs-dismiss="modal" aria-label="Close" type="button"></button>
             </div>
             <div class="modal-body">
-                <span>Please fill the form below to change your password accordingly.</span>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    {{ password_form|crispy }}
-                    <button class="btn btn-success" type="submit">Change Password</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                <section id="basic-modify" style="display: none;">
+                    <h3 class="fw-bolder">Basic Information</h3>
+                    <span>You may edit basic information about your account in this tab.</span>
+                    <form id="basicInfo" method="POST" aria-disabled="true">
+                        <input type="hidden" name="type" value="basic_change">
+                        {% csrf_token %}
+                        <label for="first_name">First Name*</label>
+                        <input class="form-control" type="text" name="first_name" id="first_name"
+                            value="{{ request.user.first_name }}" required>
+                        <label for="last_name">Last Name</label>
+                        <input class="form-control" type="text" name="last_name" id="last_name"
+                            value="{{ request.user.last_name }}">
+                        <label for="username">Username</label>
+                        <input class="form-control" type="text" name="username" id="username"
+                            value="{{ request.user.username }}" required>
 
-<div class="modal fade" id="emailChange" tabindex="-1" aria-labelledby="emailChangeModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content glass">
-            <div class="modal-header">
-                <h3 class="fw-bolder">Change Email</h3>
-                <button class="btn-close" data-bs-dismiss="modal" aria-label="Close" type="button"></button>
-            </div>
-            <div class="modal-body">
-                <span>Please fill the form below to change your email address accordingly.</span>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <label for="old_email">Old Email*</label>
-                    <input class="form-control" type="email" name="old_email" id="old_email" required>
-                    <label for="new_email">New Email*</label>
-                    <input class="form-control" type="email" name="new_email" id="new_email" required>
+                        <button class="btn btn-success mt-3" type="submit">Save Changes</button>
+                    </form>
+                </section>
+                <section id="email-modify" style="display: none;">
+                    <h3 class="fw-bolder">Email</h3>
+                    <span>Please fill the form below to change your email address accordingly.</span>
+                    <form id="emailInfo" method="post" aria-disabled="true">
+                        <input type="hidden" name="type" value="email_change">
+                        {% csrf_token %}
+                        <label for="old_email">Current Email</label>
+                        <input class="form-control" type="email" name="old_email" id="old_email"
+                            value="{{ request.user.email }}" readonly required>
+                        <label for="new_email">New Email*</label>
+                        <input class="form-control" type="email" name="new_email" id="new_email" required>
 
-                    <button class="btn btn-success mt-2" type="submit">Change Email</button>
-                </form>
+                        <button class="btn btn-success mt-2" type="submit">Save New Email</button>
+                    </form>
+                </section>
+                <section id="password-modify" style="display: none;">
+                    <h3 class="fw-bolder">Credentials</h3>
+                    <span>Please fill the form below to change your password accordingly. For security purposes, your
+                        old password needs to be confirmed.</span>
+                    <form id="pwInfo" method="POST" aria-disabled="true">
+                        <input type="hidden" name="type" value="password_change">
+                        {% csrf_token %}
+                        {{ password_form|crispy }}
+                        <button class="btn btn-success" type="submit">Save New Password</button>
+                    </form>
+                </section>
             </div>
         </div>
     </div>
@@ -146,4 +197,55 @@ Profile | UEMS
 
 
 {% block script %}
+<script>
+    $(document).ready(function () {
+
+        $("#users-table").DataTable();
+        $("#manageProfileBtn").click(function () {
+            $("#basic-modify").show();
+            $("#email-modify").hide();
+            $("#password-modify").hide();
+
+            $("#basicInfo").prop("aria-disabled", "false");
+            $("#pwInfo").add("aria-disabled", "true");
+            $("#basicInfo").add("aria-disabled", "true");
+        });
+        $("#basicTab").click(function () {
+            $("#passwordTab").removeClass("active");
+            $("#emailTab").removeClass("active");
+            $("#basicTab").addClass("active");
+            $("#basicInfo").prop("aria-disabled", "false");
+            $("#pwInfo").add("aria-disabled", "true");
+            $("#basicInfo").add("aria-disabled", "true");
+
+            $("#basic-modify").show();
+            $("#email-modify").hide();
+            $("#password-modify").hide();
+        });
+        $("#emailTab").click(function () {
+            $("#basicTab").removeClass("active");
+            $("#passwordTab").removeClass("active");
+            $("#emailTab").addClass("active");
+            $("#emailInfo").prop("aria-disabled", "false");
+            $("#pwInfo").prop("aria-disabled", "true");
+            $("#basicInfo").prop("aria-disabled", "true");
+
+            $("#basic-modify").hide();
+            $("#email-modify").show();
+            $("#password-modify").hide();
+        });
+        $("#passwordTab").click(function () {
+            $("#passwordTab").addClass("active");
+            $("#emailTab").removeClass("active");
+            $("#basicTab").removeClass("active");
+            $("#emailInfo").prop("aria-disabled", "true");
+            $("#pwInfo").prop("aria-disabled", "false");
+            $("#basicInfo").prop("aria-disabled", "true");
+
+            $("#basic-modify").hide();
+            $("#email-modify").hide();
+            $("#password-modify").show();
+        });
+    });
+</script>
 {% endblock %}

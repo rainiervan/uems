@@ -51,8 +51,6 @@
 
 .uems-body {
     padding: 1em;
-
-    color: black;
 }
 
 .platform {
@@ -70,6 +68,11 @@
 .platform-light {
     background: rgba(255, 255, 255, 0.75);
     color: black;
+}
+
+.platform-dark {
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
 }
 
 .glass {

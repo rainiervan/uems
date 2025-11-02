@@ -5,8 +5,12 @@
 <div class="uems-header">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="fw-bolder">
-                Welcome, {{ request.user.username }}!
+            <h1 class="fw-bolder">Welcome,
+                {% if request.user.first_name %}
+                {{ request.user.first_name }}
+                {% else %}
+                {{ request.user.username }}
+                {% endif %}
             </h1>
             <span>
                 Here is a summary of event information.
