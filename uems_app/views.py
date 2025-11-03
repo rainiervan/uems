@@ -113,10 +113,28 @@ def profile_view(request):
     pwChange = PasswordChangeForm(request.user)
     if request.user.is_staff and request.user.is_superuser:
         users = User.objects.all()
+        events = Event.objects.all()
 
-        return render(request, "profile/index.html", {"password_form": pwChange, "users": users})
+        return render(request, "profile/index.html", {"password_form": pwChange, "users": users, "events": events})
     else:
         return render(request, "profile/index.html", {"password_form": pwChange})
+
+def management_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        if not request.user.is_superuser or not request.user.is_staff:
+            return redirect("dashboard")
+        else:
+            users = User.objects.all()
+            events = Event.objects.all()
+
+            context = {
+                "users": users,
+                "events": events
+            }
+
+            return render(request, "management/index.html", context)
 
 def dashboard_view(request):
     if not request.user.is_authenticated:

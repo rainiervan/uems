@@ -11,6 +11,9 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('profile/', views.profile_view, name='profile'),
 
+    # Management
+    path('management/', views.management_view, name="management"),
+
     # Events CRUD
     path('events/', views.EventListView.as_view(), name='event_list'),
     path('events/<int:pk>/', views.EventDetailView.as_view(), name='event_detail'),
