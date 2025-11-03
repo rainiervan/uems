@@ -3,30 +3,181 @@
 
 {% block content %}
 <div class="uems-header">
-    <h1 class="fw-bolder">{{ event.title }}</h1>
-    <p>{{ event.description }}</p>
+    <div class="d-flex align-items-center mb-3">
+        <div>
+            <h1 class="fw-bolder mb-2">{{ event.title }}</h1>
+            <p class="mb-0 opacity-75">{{ event.description }}</p>
+        </div>
+    </div>
 </div>
 
 <div class="uems-body">
-    <div class="card p-4 shadow-sm">
-        <h5><strong>Venue:</strong> {{ event.venue }}</h5>
-        <h5><strong>Organizer:</strong> {{ event.organizer }}</h5>
-        <h5><strong>Schedule:</strong> {{ event.from_date|date:"M d, Y H:i" }} — {{ event.to_date|date:"M d, Y H:i" }}
-        </h5>
-        <h5><strong>Max Attendees:</strong> {{ event.max_attendees }}</h5>
-        <h5><strong>Visibility:</strong> {% if event.is_public %} Public {% else %} Private {% endif %}</h5>
-        <hr>
-        <p>{{ event.description }}</p>
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="p-4" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%);">
+                        <h3 class="fw-bold text-white mb-0">Event Details</h3>
+                    </div>
+                    <div class="p-4">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-start p-3 rounded-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                    <div class="rounded-circle p-2 me-3" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); min-width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block mb-1 fw-semibold" style="font-size: 0.75rem;">VENUE</small>
+                                        <h5 class="mb-0 fw-bold" style="color: #2d3748;">{{ event.venue }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-start p-3 rounded-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                    <div class="rounded-circle p-2 me-3" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); min-width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-person-badge" viewBox="0 0 16 16">
+                                            <path d="M6.5 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zM11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                            <path d="M4.5 0A2.5 2.5 0 0 0 2 2.5V14a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2.5A2.5 2.5 0 0 0 11.5 0zM3 2.5A1.5 1.5 0 0 1 4.5 1h7A1.5 1.5 0 0 1 13 2.5v10.795a4.2 4.2 0 0 0-.776-.492C11.392 12.387 10.063 12 8 12s-3.392.387-4.224.803a4.2 4.2 0 0 0-.776.492z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block mb-1 fw-semibold" style="font-size: 0.75rem;">ORGANIZER</small>
+                                        <h5 class="mb-0 fw-bold" style="color: #2d3748;">{{ event.organizer }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex align-items-start p-3 rounded-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                    <div class="rounded-circle p-2 me-3" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); min-width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-clock" viewBox="0 0 16 16">
+                                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <small class="text-muted d-block mb-2 fw-semibold" style="font-size: 0.75rem;">SCHEDULE</small>
+                                        <div class="d-flex flex-wrap align-items-center gap-2">
+                                            <span class="badge rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); font-size: 0.85rem; font-weight: 600;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar-check me-1" viewBox="0 0 16 16">
+                                                    <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                                                </svg>
+                                                {{ event.from_date|date:"M d, Y H:i" }}
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#6c757d" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                                            </svg>
+                                            <span class="badge rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); font-size: 0.85rem; font-weight: 600;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar-x me-1" viewBox="0 0 16 16">
+                                                    <path d="M6.146 7.146a.5.5 0 0 1 .708 0L8 8.293l1.146-1.147a.5.5 0 1 1 .708.708L8.707 9l1.147 1.146a.5.5 0 0 1-.708.708L8 9.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 9 6.146 7.854a.5.5 0 0 1 0-.708"/>
+                                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                                                </svg>
+                                                {{ event.to_date|date:"M d, Y H:i" }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-start p-3 rounded-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                    <div class="rounded-circle p-2 me-3" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); min-width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-people" viewBox="0 0 16 16">
+                                            <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block mb-1 fw-semibold" style="font-size: 0.75rem;">MAX ATTENDEES</small>
+                                        <h5 class="mb-0 fw-bold" style="color: #2d3748;">{{ event.max_attendees }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-start p-3 rounded-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                    <div class="rounded-circle p-2 me-3" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); min-width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                                        {% if event.is_public %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-globe" viewBox="0 0 16 16">
+                                            <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A8 8 0 0 0 5.145 4H7.5zM4.09 4a9.3 9.3 0 0 1 .64-1.539 7 7 0 0 1 .597-.933A7.03 7.03 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a7 7 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h3.99a12.5 12.5 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12q.208.58.468 1.068c.552 1.035 1.218 1.65 1.887 1.855V12zm.182 2.472a7 7 0 0 1-.597-.933A9.3 9.3 0 0 1 4.09 12H2.255a7 7 0 0 0 3.072 2.472M3.82 11a13.7 13.7 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm6.853 3.472A7 7 0 0 0 13.745 12H11.91a9.3 9.3 0 0 1-.64 1.539 7 7 0 0 1-.597.933M8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855q.26-.487.468-1.068zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.7 13.7 0 0 1-.312 2.5m2.802-3.5a7 7 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7 7 0 0 0-3.072-2.472c.218.284.418.598.597.933M10.855 4a8 8 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4z"/>
+                                        </svg>
+                                        {% else %}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-lock" viewBox="0 0 16 16">
+                                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                                        </svg>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block mb-1 fw-semibold" style="font-size: 0.75rem;">VISIBILITY</small>
+                                        <h5 class="mb-0">
+                                            <span class="badge rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); font-size: 0.85rem; font-weight: 600;">
+                                                {% if event.is_public %} Public {% else %} Private {% endif %}
+                                            </span>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="my-4" style="opacity: 0.1;">
+                        <div class="p-3 rounded-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-left: 4px solid #009639;">
+                            <small class="text-muted d-block mb-2 fw-semibold" style="font-size: 0.75rem;">DESCRIPTION</small>
+                            <p class="mb-0" style="color: #2d3748; line-height: 1.8;">{{ event.description }}</p>
+                        </div>
 
-        <div class="mt-4">
-            {% if request.user.is_authenticated %}
-            <a href="{% url 'event_register' event.id %}" class="btn btn-success">Register</a>
-            {% endif %}
+                        <div class="mt-4 d-flex flex-wrap gap-2">
 
-            {% if request.user.is_staff or request.user.is_superuser %}
-            <a href="{% url 'event_edit' event.id %}" class="btn btn-warning">Edit</a>
-            <a href="{% url 'event_delete' event.id %}" class="btn btn-danger">Delete</a>
-            {% endif %}
+                            {% if request.user.is_staff or request.user.is_superuser %}
+                            <a href="{% url 'event_edit' event.id %}" class="btn btn-lg border-0 rounded-3 shadow-sm fw-bold px-4" style="background: #f8cc48; color: white;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil me-2" viewBox="0 0 16 16">
+                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                                </svg>
+                                Edit
+                            </a>
+                            <a href="{% url 'event_delete' event.id %}" class="btn btn-lg border-0 rounded-3 shadow-sm fw-bold px-4" style="background: #c82333; color: white;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash me-2" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                </svg>
+                                Delete
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-0 rounded-4 shadow-lg overflow-hidden mb-4">
+                <div class="card-body p-4" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%);">
+                    <div class="text-center text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-calendar-check mb-3" viewBox="0 0 16 16" style="opacity: 0.9;">
+                            <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                        </svg>
+                        <h4 class="fw-bold mb-2">Event Status</h4>
+                        <p class="mb-0 opacity-75">Registration is currently open</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="card-body p-4" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
+                    <h5 class="fw-bold mb-3" style="color: #2d3748;">Quick Summary</h5>
+                    <div class="d-flex flex-column gap-3">
+                        <div class="d-flex justify-content-between align-items-center p-2">
+                            <span class="text-muted">Duration</span>
+                            <span class="fw-semibold" style="color: #2d3748;">Multi-day Event</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center p-2">
+                            <span class="text-muted">Category</span>
+                            <span class="badge rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); font-size: 0.85rem;">University Event</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center p-2">
+                            <span class="text-muted">Status</span>
+                            <span class="badge rounded-pill px-3 py-2" style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); font-size: 0.85rem;">Open</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

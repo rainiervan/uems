@@ -7,21 +7,27 @@
 <div class="container-fluid p-2 uems-bg vh-100 d-flex flex-column align-items-center justify-content-center">
     <div class="platform platform-light">
         <div class="row h-100">
-            <div class="col-md-6">
-                <section class="position-sticky d-flex flex-column align-items-center justify-content-center"
-                    style="top: 25%;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" fill="currentColor"
-                        class="bi bi-calendar3" viewBox="0 0 16 16">
-                        <path
-                            d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z" />
-                        <path
-                            d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+            <div class="col-md-7">
+                <div class="m-3" style="border-radius: 10px; background-color: gold;">
+                    <section class="d-flex flex-row align-items-center">
+                        <div class="p-4">
+                            <h1 class="fw-bolder text-start">UEMS</h1>
+                        </div>
+                        <div class="bg-white m-3 p-4" style="border-radius: 10px;">
+                            <h3 class="fw-bolder text-start">University Events Management System</h3>
+                        </div>
+                    </section>
+                </div>
+
+                <section class="position-sticky d-flex flex-column align-items-center justify-content-center" style="top: 55%;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                        <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z" />
+                        <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
                     </svg>
-                    <h1 class="fw-bolder">UEMS</h1>
-                    <h4 class="text-center">University Events Management System</h4>
+                    <h4 class=" m-3">Welcome!</h4>
                 </section>
             </div>
-            <div class="col-md-6 bg-white d-flex flex-column align-items-center justify-content-center">
+            <div class="col-md-5 bg-white d-flex flex-column align-items-center justify-content-center">
                 <div class="d-flex flex-column m-3 align-items-center justify-content-center">
                     {% if messages %}
                     {% for message in messages %}

@@ -4,18 +4,117 @@
 
 {% block content %}
 <div class="uems-header">
-    <h1 class="fw-bolder">Create New Event</h1>
-    <p>Fill in the form below to add a new event.</p>
+    <div class="row align-items-center">
+        <div class="col-md-12">
+            <h1 class="fw-bolder mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-calendar-plus me-2" viewBox="0 0 16 16" style="vertical-align: middle;">
+                    <path d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7"/>
+                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                </svg>
+                Create New Event
+            </h1>
+            <p class="text-muted mb-0">Fill in the details below to create a new event in the system</p>
+        </div>
+    </div>
 </div>
 
 <div class="uems-body">
-    <div class="card p-4 shadow-sm">
-        <form method="post">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <button type="submit" class="btn btn-primary mt-3">Create Event</button>
-            <a href="{% url 'dashboard' %}" class="btn btn-secondary mt-3">Cancel</a>
-        </form>
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4 pb-3" style="border-bottom: 2px solid #e9ecef;">
+                        <div style="background: rgba(13, 110, 253, 0.1); padding: 12px; border-radius: 10px; margin-right: 15px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#0d6efd" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533z"/>
+                                <circle cx="8" cy="4.5" r="1"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h5 class="mb-1 fw-bold">Event Information</h5>
+                            <small class="text-muted">All fields marked with <span class="text-danger">*</span> are required</small>
+                        </div>
+                    </div>
+
+                    <form method="post" id="eventForm">
+                        {% csrf_token %}
+                        
+                        <div class="form-sections">
+                            {{ form|crispy }}
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3" style="border-top: 2px solid #e9ecef;">
+                            <a href="{% url 'dashboard' %}" class="btn btn-light px-4" style="border-radius: 8px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle me-1" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                </svg>
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary px-5" style="border-radius: 8px; font-weight: 600;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle me-1" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+                                </svg>
+                                Create Event
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Help Card -->
+            <div class="card border-0 shadow-sm mt-4" style="border-radius: 15px; background: #f8f9fa;">
+                <div class="card-body p-4">
+                    <div class="d-flex">
+                        <div style="background: rgba(255, 193, 7, 0.2); padding: 12px; border-radius: 10px; margin-right: 15px; height: fit-content;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ffc107" class="bi bi-lightbulb" viewBox="0 0 16 16">
+                                <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-2">Tips for Creating Events</h6>
+                            <ul class="mb-0 text-muted" style="font-size: 0.9rem;">
+                                <li>Make sure the event title is clear and descriptive</li>
+                                <li>Double-check the date and time before submitting</li>
+                                <li>Provide enough details in the description for attendees</li>
+                                <li>Set appropriate capacity limits if needed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        const formSections = document.querySelector('.form-sections');
+        if (formSections) {
+            formSections.style.opacity = '0';
+            formSections.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                formSections.style.transition = 'all 0.5s ease';
+                formSections.style.opacity = '1';
+                formSections.style.transform = 'translateY(0)';
+            }, 100);
+        }
+        
+        const form = document.getElementById('eventForm');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const submitBtn = form.querySelector('button[type="submit"]');
+                submitBtn.innerHTML = `
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Creating Event...
+                `;
+                submitBtn.disabled = true;
+            });
+        }
+    });
+</script>
 {% endblock %}

@@ -3,18 +3,101 @@
 
 {% block content %}
 <div class="uems-header">
-    <h1 class="fw-bolder text-danger">Delete Event</h1>
-    <p>You are about to permanently delete this event. This action cannot be undone.</p>
+    <div class="d-flex align-items-center mb-2">
+        <div class="rounded-circle p-3 me-3" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="white" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z"/>
+                <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+            </svg>
+        </div>
+        <div>
+            <h1 class="fw-bolder mb-1" style="color:white">Delete Event</h1>
+            <p class="mb-0 opacity-75">You are about to permanently delete this event. This action cannot be undone.</p>
+        </div>
+    </div>
 </div>
 
 <div class="uems-body">
-    <div class="card p-4 shadow-sm">
-        <p>Are you sure you want to delete <strong>"{{ event.title }}"</strong>?</p>
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger mt-2">Yes, Delete</button>
-            <a href="{% url 'event_detail' event.id %}" class="btn btn-secondary mt-2">Cancel</a>
-        </form>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="p-4" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
+                        <div class="d-flex align-items-center text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-trash me-3" viewBox="0 0 16 16" style="opacity: 0.9;">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                            </svg>
+                            <div>
+                                <h3 class="fw-bold mb-1">Confirm Deletion</h3>
+                                <p class="mb-0 opacity-75">This action is permanent and cannot be reversed</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="alert border-0 rounded-3 mb-4" style="background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%); border-left: 4px solid #f6d365 !important;">
+                            <div class="d-flex align-items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#856404" class="bi bi-exclamation-triangle-fill me-3 flex-shrink-0" viewBox="0 0 16 16">
+                                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                                </svg>
+                                <div>
+                                    <h6 class="fw-bold mb-2" style="color: #856404;">Warning: Permanent Action</h6>
+                                    <p class="mb-0" style="color: #856404; font-size: 0.9rem;">Once deleted, all event data including registrations and related information will be permanently removed from the system.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-3 mb-4" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-left: 4px solid #dc3545;">
+                            <div class="d-flex align-items-start">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#dc3545" class="bi bi-calendar-event me-3 flex-shrink-0" viewBox="0 0 16 16">
+                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                                </svg>
+                                <div>
+                                    <small class="text-muted d-block mb-2 fw-semibold" style="font-size: 0.75rem;">EVENT TO BE DELETED</small>
+                                    <h4 class="fw-bold mb-0" style="color: #2d3748;">"{{ event.title }}"</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-center text-muted mb-4" style="font-size: 0.95rem;">
+                            Are you absolutely sure you want to delete this event? Please confirm your decision below.
+                        </p>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
+                                <button type="submit" class="btn btn-lg border-0 rounded-3 shadow-sm fw-bold px-5" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash-fill me-2" viewBox="0 0 16 16">
+                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                                    </svg>
+                                    Yes, Delete Event
+                                </button>
+                                <a href="{% url 'event_detail' event.id %}" class="btn btn-lg border-0 rounded-3 shadow-sm fw-bold px-5" style="background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%); color: white;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle me-2" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                    </svg>
+                                    Cancel
+                                </a>
+                            </div>
+                        </form>
+
+                        <div class="mt-4 p-3 rounded-3 text-center" style="background: rgba(220, 53, 69, 0.05);">
+                            <small class="text-muted">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-info-circle me-1" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533z"/>
+                                    <circle cx="8" cy="4.5" r="1"/>
+                                </svg>
+                                Need help? Contact system administrator before proceeding
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
