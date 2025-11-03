@@ -115,10 +115,12 @@
                                     </div>
                                 {% endif %}
                             </div>
+                            {% endif %}
                         </div>
                     </div>
-                    {% endfor %}
                 </div>
+                {% endfor %}
+            </div>
             {% else %}
                 <div class="text-center py-5">
                     <div class="card border-0 rounded-4 shadow-lg d-inline-block p-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);">
@@ -138,7 +140,7 @@
 
 {% block script %}
 <script>
-    document.getElementById('events').addEventListener('keyup', function() {
+    document.getElementById('events').addEventListener('keyup', function () {
         const query = this.value.toLowerCase();
         document.querySelectorAll('#eventsList .card').forEach(card => {
             const text = card.textContent.toLowerCase();

@@ -163,6 +163,11 @@ Profile | UEMS
                     </div>
                 </div>
             </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+            <h1>Your Registered Events</h1>
+            <span>Here is the list of the events you have registered in.</span>
         </div>
     </div>
 </div>
@@ -230,4 +235,55 @@ Profile | UEMS
 
 
 {% block script %}
+<script>
+    $(document).ready(function () {
+
+        $("#users-table").DataTable();
+        $("#manageProfileBtn").click(function () {
+            $("#basic-modify").show();
+            $("#email-modify").hide();
+            $("#password-modify").hide();
+
+            $("#basicInfo").prop("aria-disabled", "false");
+            $("#pwInfo").add("aria-disabled", "true");
+            $("#basicInfo").add("aria-disabled", "true");
+        });
+        $("#basicTab").click(function () {
+            $("#passwordTab").removeClass("active");
+            $("#emailTab").removeClass("active");
+            $("#basicTab").addClass("active");
+            $("#basicInfo").prop("aria-disabled", "false");
+            $("#pwInfo").add("aria-disabled", "true");
+            $("#basicInfo").add("aria-disabled", "true");
+
+            $("#basic-modify").show();
+            $("#email-modify").hide();
+            $("#password-modify").hide();
+        });
+        $("#emailTab").click(function () {
+            $("#basicTab").removeClass("active");
+            $("#passwordTab").removeClass("active");
+            $("#emailTab").addClass("active");
+            $("#emailInfo").prop("aria-disabled", "false");
+            $("#pwInfo").prop("aria-disabled", "true");
+            $("#basicInfo").prop("aria-disabled", "true");
+
+            $("#basic-modify").hide();
+            $("#email-modify").show();
+            $("#password-modify").hide();
+        });
+        $("#passwordTab").click(function () {
+            $("#passwordTab").addClass("active");
+            $("#emailTab").removeClass("active");
+            $("#basicTab").removeClass("active");
+            $("#emailInfo").prop("aria-disabled", "true");
+            $("#pwInfo").prop("aria-disabled", "false");
+            $("#basicInfo").prop("aria-disabled", "true");
+
+            $("#basic-modify").hide();
+            $("#email-modify").hide();
+            $("#password-modify").show();
+        });
+    });
+</script>
 {% endblock %}
