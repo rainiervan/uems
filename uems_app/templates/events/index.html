@@ -70,6 +70,13 @@
             </div>
             {% endif %}
 
+            <div class="row mb-3">
+                <div class="col-md-12 d-flex flex-column justify-content-center">
+                    <label class="fw-bolder" for="events">Search:</label>
+                    <input class="form-control" type="search" name="events" id="events" placeholder="Search for events...">
+                </div>
+            </div>
+
             {% if events %}
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 {% for event in events %}
@@ -150,8 +157,8 @@
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
         {% else %}
         <div class="text-center py-5">

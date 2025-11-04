@@ -60,7 +60,7 @@ def register_view(request):
                 user = form.save()
                 login(request, user)
                 messages.success(request, "Registration successful!")
-                return redirect("dashboard_view")
+                return redirect("dashboard")
             else:
                 messages.error(request, "Please correct the errors below.")
     elif request.user.is_authenticated:
@@ -164,8 +164,12 @@ def profile_view(request):
                 messages.success(request, "Profile updated successfully.")
 
         return redirect("profile")
-
-    context = {"password_form": pwChange}
+    
+    registered_events = Attendee.objects.filter(user_id=request.user.id)
+    context = {
+        "password_form": pwChange,
+        "registered_events": registered_events
+    }
     if is_admin(request.user):
         context["users"] = User.objects.all()
         context["events"] = Event.objects.all()
