@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
-from .models import Event, Attendee
+from .models import Event, Attendee, Ticket, Venue, User, Organizer
 from datetime import datetime
 
 class RegisterForm(UserCreationForm):
@@ -46,3 +46,23 @@ class AttendeeForm(forms.ModelForm):
     class Meta:
         model = Attendee
         fields = ['full_name', 'email', 'ticket']
+
+class TicketForm(forms.ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ['name', 'price', 'quantity', 'event']
+
+class UserCreateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username', 'email', 'is_staff', 'is_superuser', 'role']
+
+class OrganizerForm(forms.ModelForm):
+    class Meta:
+        model = Organizer
+        fields = ['name', 'contact_email', 'phone', 'user']
+
+class VenueForm(forms.ModelForm):
+    class Meta:
+        model = Venue
+        fields = ['name', 'address', 'capacity', 'description']

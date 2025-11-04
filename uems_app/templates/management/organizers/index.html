@@ -6,6 +6,14 @@
 <div class="uems-header">
     <div class="row">
         <div class="col-md-12">
+            <section class="d-flex flex-row gap-2 align-items-center">
+                <a class="btn btn-secondary d-flex flex-row align-items-center gap-1" href="/management/">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                        <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
+                    </svg>
+                    Return
+                </a>
+            </section>
             <h1 class="fw-bolder">Organizers Management</h1>
             <span>You may manage the organizers as a whole from this screen.</span>
         </div>
@@ -15,7 +23,7 @@
     <div class="row">
         <section class="d-flex flex-row align-items-center justify-content-between">
             <h1>Organizers</h1>
-            <button class="btn btn-success" type="button">+ New Organizer</button>
+            <a class="btn btn-success" href="create">+ New Organizer</a>
         </section>
         <table class="table table-border table-hover table-striped" id="organizers-table">
             <thead>
@@ -36,8 +44,27 @@
                             <td>{{ organizer.name }}</td>
                             <td>{{ organizer.contact_email }}</td>
                             <td>{{ organizer.phone }}</td>
-                            <td>{{ organizer.user_id }}</td>
-                            <td>None</td>
+                            <td>{{ organizer.user }}</td>
+                            <td class="d-flex flex-row align-items-center">
+                                <section>
+                                    <a class="btn btn-warning" href="edit/{{organizer.id}}">Edit</a>
+                                    <button class="btn btn-danger" onclick="
+                                        Swal.fire({
+                                            icon: 'warning',
+                                            title: 'Delete',
+                                            text: 'Are you sure you want to delete this item?',
+                                            showConfirmButton: true,
+                                            showCancelButton: true
+                                        }).then((result) => {
+                                            if(result.isConfirmed){
+                                                window.location = 'delete/{{organizer.id}}';
+                                            }
+                                        });
+                                    ">
+                                        Delete
+                                    </a>
+                                </section>
+                            </td>
                         </tr>
                     {% endfor %}
                 {% endif %}

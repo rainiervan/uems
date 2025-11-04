@@ -64,7 +64,7 @@
                                     class="text-decoration-none text-black {% if request.get_full_path == '/' %}fw-bolder{% endif %}"
                                     href="/">Dashboard</a></li>
                             <li class="navbar-item mx-3"><a
-                                    class="text-decoration-none text-black {% if request.get_full_path == '/events/' %}fw-bolder{% endif %}"
+                                    class="text-decoration-none text-black {% if '/events/' in request.get_full_path %}fw-bolder{% endif %}"
                                     href="/events">Events</a></li>
                             <li class="navbar-item"><a
                                     class="text-decoration-none text-black {% if request.get_full_path == '/profile/' %}fw-bolder{% endif %}"
@@ -89,13 +89,7 @@
                             {{ request.user.username }}
                             {% endif %}
                         </span>
-                        <span>
-                            {% if request.user.is_superuser or request.user.is_staff %}
-                            Admin
-                            {% else %}
-                            User
-                            {% endif %}
-                        </span>
+                        <span>{{ request.user.role|capfirst }}</span>
                     </section>
                     <a class="btn btn-danger" href="/logout">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -115,14 +109,14 @@
                                 class="text-decoration-none text-black {% if request.get_full_path == '/' %}fw-bolder{% endif %}"
                                 href="/">Dashboard</a></li>
                         <li class="navbar-item mt-3"><a
-                                class="text-decoration-none text-black {% if request.get_full_path == '/events/' %}fw-bolder{% endif %}"
+                                class="text-decoration-none text-black {% if '/events/' in request.get_full_path %}fw-bolder{% endif %}"
                                 href="/events">Events</a></li>
                         <li class="navbar-item my-3"><a
                                 class="text-decoration-none text-black {% if request.get_full_path == '/profile/' %}fw-bolder{% endif %}"
                                 href="/profile">Profile</a></li>
                         {% if request.user.is_superuser or request.user.is_staff %}
                         <li class="navbar-item mb-3"><a
-                                class="text-decoration-none text-black {% if request.get_full_path == '/management/' %}fw-bolder{% endif %}"
+                                class="text-decoration-none text-black {% if '/management/' in request.get_full_path %}fw-bolder{% endif %}"
                                 href="/management">Management</a></li>
                         {% endif %}
                         <li>

@@ -19,6 +19,7 @@
                 {% csrf_token %}
                 {{form|crispy}}
 
+                <p><i>Please inform the user who this account will belong to of the default password: <b>Userpw@123</b></i></p>
                 <button class="btn btn-success" type="submit">Add New User</button>
                 <a class="btn btn-secondary" href="/management/users/">Cancel</a>
             </form>

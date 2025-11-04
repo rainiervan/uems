@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Organizer, Venue, Event, Ticket, Attendee
+from .models import Organizer, Venue, Event, Ticket, Attendee, User
 
 # Register your models here.
 
@@ -7,6 +7,12 @@ from .models import Organizer, Venue, Event, Ticket, Attendee
 class OrganizerAdmin(admin.ModelAdmin):
     list_display = ('name', 'contact_email', 'phone')
     search_fields = ('name', 'contact_email')
+
+@admin.register(User)
+class User(admin.ModelAdmin):
+    list_display = ('username', 'first_name', 'last_name', 'date_joined')
+    list_filter = ('username', 'date_joined')
+    search_fields = ('username', 'first_name', 'last_name', 'date_joined')
 
 @admin.register(Venue)
 class VenueAdmin(admin.ModelAdmin):
