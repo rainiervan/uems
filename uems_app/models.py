@@ -1,14 +1,35 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from datetime import datetime
 
-User = get_user_model()
+User = settings.AUTH_USER_MODEL
 
-# Create your models here.
+class User(AbstractUser):
+    ROLE_CHOICES = [
+        ('superadmin', 'Super Admin'),
+        ('admin', 'Admin'),
+        ('organizer', 'Organizer'),
+        ('attendee', 'Attendee'),
+    ]
+
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='attendee')
+
+    def is_superadmin(self):
+        return self.role == 'superadmin'
+
+    def is_admin(self):
+        return self.role == 'admin'
+
+    def is_organizer(self):
+        return self.role == 'organizer'
+
+    def is_attendee(self):
+        return self.role == 'attendee'
 
 class Organizer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='organizer_profile')
     name = models.CharField(max_length=200)
     contact_email = models.EmailField()
     phone = models.CharField(max_length=30, blank=True)
@@ -26,7 +47,7 @@ class Venue(models.Model):
         return self.name
 
 class Event(models.Model):
-    organizer = models.ForeignKey(Organizer, on_delete=models.SET_NULL, null=True, blank=True)
+    organizer = models.ForeignKey(Organizer, on_delete=models.SET_NULL, null=True, blank=True, related_name='events')
     venue = models.ForeignKey(Venue, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
@@ -50,7 +71,6 @@ class Event(models.Model):
 
     @property
     def spots_left(self):
-        """Return remaining attendee slots (if max_attendees is set)."""
         if self.max_attendees is None:
             return None
         booked = self.attendees.count()
@@ -60,7 +80,7 @@ class Ticket(models.Model):
     event = models.ForeignKey(Event, related_name='tickets', on_delete=models.CASCADE)
     name = models.CharField(max_length=120, default='General Admission')
     price = models.DecimalField(decimal_places=2, max_digits=10, default=0)
-    quantity = models.PositiveIntegerField(default=0)  # total available tickets
+    quantity = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"{self.name} — {self.event.title}"

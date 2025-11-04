@@ -28,17 +28,18 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'uems_app.User'
 
 # Application definition
 
 INSTALLED_APPS = [
+    'uems_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'uems_app',
     'crispy_forms',
     'crispy_bootstrap5'
 ]

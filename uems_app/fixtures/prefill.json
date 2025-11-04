@@ -1,6 +1,27 @@
 [
     {
-        "model": "auth.user",
+        "model": "auth.group",
+        "pk": 1,
+        "fields": {
+            "name": "Admin"
+        }
+    },
+    {
+        "model": "auth.group",
+        "pk": 2,
+        "fields": {
+            "name": "Organizer"
+        }
+    },
+    {
+        "model": "auth.group",
+        "pk": 3,
+        "fields": {
+            "name": "Attendee"
+        }
+    },
+    {
+        "model": "uems_app.User",
         "pk": 1,
         "fields": {
             "first_name": "Admin",
@@ -9,7 +30,10 @@
             "email": "admin@gmail.com",
             "password": "pbkdf2_sha256$600000$PA7NysSFxGXWz6LaegXlj8$Tl4AkFtsldIWIOzYeKbA84Phc4Fl1TDuKSliH9zh2sY=",
             "is_superuser": true,
-            "is_staff": true
+            "is_staff": true,
+            "is_active": true,
+            "role": "admin",
+            "groups": [1]
         }
     }
 ]

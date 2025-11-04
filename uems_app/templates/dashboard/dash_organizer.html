@@ -1,0 +1,158 @@
+{% extends "../master.html" %}
+{% block title %}Organizer Dashboard | UEMS{% endblock %}
+
+{% block content %}
+<div class="uems-header">
+    <div class="row align-items-center">
+        <div class="col-md-12">
+            <h1 class="fw-bolder mb-2">
+                Welcome, {{ request.user.username }}!
+            </h1>
+            <span>Manage your events and monitor your event statistics.</span>
+        </div>
+    </div>
+</div>
+
+<div class="uems-body">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="fw-bolder">Organizer Dashboard</h3>
+                <div>
+                    <a href="{% url 'event_create' %}" class="btn btn-primary me-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle me-1" viewBox="0 0 16 16">
+                            <path
+                                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                        </svg>
+                        + New Event
+                    </a>
+                    <a href="{% url 'event_list' %}" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-list-ul me-1" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
+                        </svg>
+                        View All Events
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Organizer Statistics -->
+    <div class="row text-center g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card bg-light p-4 h-100 shadow-sm" style="border-radius: 10px; border: none;">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="text-start">
+                        <h5 class="text-muted text-uppercase mb-3" style="font-size: 0.9rem;">My Total Events</h5>
+                        <h2 class="fw-bold" style="font-size: 3rem; color: #333;">{{ events.count }}</h2>
+                    </div>
+                    <div style="background: rgba(13, 110, 253, 0.1); padding: 15px; border-radius: 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#0d6efd"
+                            class="bi bi-calendar-check" viewBox="0 0 16 16">
+                            <path
+                                d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0" />
+                            <path
+                                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-muted mb-0 text-start">Events created under your account</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light p-4 h-100 shadow-sm" style="border-radius: 10px; border: none;">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="text-start">
+                        <h5 class="text-muted text-uppercase mb-3" style="font-size: 0.9rem;">Ongoing</h5>
+                        <h2 class="fw-bold" style="font-size: 3rem; color: #333;">
+                            {{ events|dictsort:"status"|length }}
+                        </h2>
+                    </div>
+                    <div style="background: rgba(25, 135, 84, 0.1); padding: 15px; border-radius: 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#198754"
+                            class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                            <path
+                                d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9" />
+                            <path fill-rule="evenodd"
+                                d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z" />
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-muted mb-0 text-start">Currently active or ongoing events</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-light p-4 h-100 shadow-sm" style="border-radius: 10px; border: none;">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="text-start">
+                        <h5 class="text-muted text-uppercase mb-3" style="font-size: 0.9rem;">Archived</h5>
+                        <h2 class="fw-bold" style="font-size: 3rem; color: #333;">
+                            {{ events|length }}
+                        </h2>
+                    </div>
+                    <div style="background: rgba(108, 117, 125, 0.1); padding: 15px; border-radius: 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#6c757d"
+                            class="bi bi-archive" viewBox="0 0 16 16">
+                            <path
+                                d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-muted mb-0 text-start">Archived or completed events</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Organizer Event List -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h4 class="fw-bold mb-3">My Events</h4>
+            {% if events %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Event Name</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in events %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ event.name }}</td>
+                                <td>{{ event.date|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if event.is_active %}
+                                        <span class="badge bg-success">Ongoing</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Archived</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'event_detail' event.id %}" class="btn btn-sm btn-outline-primary me-2">View</a>
+                                    <a href="{% url 'event_update' event.id %}" class="btn btn-sm btn-outline-warning me-2">Edit</a>
+                                    <a href="{% url 'event_delete' event.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info">You have not created any events yet.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
