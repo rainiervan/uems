@@ -31,6 +31,7 @@ class EventForm(forms.ModelForm):
             'description',
             'venue',
             'thumbnail',
+            'archived',
             'from_date',
             'to_date',
             'max_attendees',

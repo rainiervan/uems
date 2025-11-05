@@ -123,6 +123,7 @@
                                 <th scope="col">Event Name</th>
                                 <th scope="col">From Date</th>
                                 <th scope="col">To Date</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -133,6 +134,13 @@
                                 <td>{{ event.title }}</td>
                                 <td>{{ event.from_date|date:"M d, Y" }}</td>
                                 <td>{{ event.to_date|date:"M d, Y" }}</td>
+                                <td>
+                                    {% if not event.archived %}
+                                        <span class="badge bg-success">Ongoing</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Archived</span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <a href="{% url 'event_detail' event.id %}" class="btn btn-sm btn-outline-primary me-2">View</a>
                                     <a href="{% url 'event_edit' event.id %}" class="btn btn-sm btn-outline-warning me-2">Edit</a>
