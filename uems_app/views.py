@@ -81,7 +81,7 @@ def dashboard_view(request):
     # ---- SUPERADMIN / ADMIN DASHBOARD ----
     if is_admin(user):
         total_events = Event.objects.count()
-        ongoing_events = Event.objects.filter(from_date__lte=now, to_date__gte=now, archived=False).count()
+        ongoing_events = Event.objects.filter(archived=False).count()
         archived_events = Event.objects.filter(archived=True).count()
 
         context = {
