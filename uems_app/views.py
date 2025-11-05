@@ -275,9 +275,14 @@ def organizers_view(request):
         return redirect("login")
     else:
         if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("login")
+            return redirect("dashboard")
         else:
-            organizers = Organizer.objects.all()
+            if request.user.is_admin():
+                organizers = Organizer.objects.all()
+            elif request.user.is_organizer():
+                organizers = Organizer.objects.filter(user=request.user)
+            else:
+                return redirect("dashboard")
 
             return render(request, "management/organizers/index.html", {"organizers": organizers})
 

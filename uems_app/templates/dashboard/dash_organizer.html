@@ -5,8 +5,12 @@
 <div class="uems-header">
     <div class="row align-items-center">
         <div class="col-md-12">
-            <h1 class="fw-bolder mb-2">
-                Welcome, {{ request.user.username }}!
+            <h1 class="fw-bolder mb-2">Welcome, 
+                {% if request.user.first_name %}
+                {{ request.user.first_name }}
+                {% else %}
+                {{ request.user.username }}
+                {% endif %}
             </h1>
             <span>Manage your events and monitor your event statistics.</span>
         </div>
