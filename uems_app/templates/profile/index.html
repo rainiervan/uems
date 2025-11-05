@@ -93,11 +93,7 @@ Profile | UEMS
                                     style="font-size: 0.75rem; font-weight: 600;">Role</small>
                                 <span class="badge rounded-pill px-3 py-2"
                                     style="background: linear-gradient(135deg, #009639 0%, #00c851 100%); font-size: 0.85rem; font-weight: 600;">
-                                    {% if request.user.is_superuser or request.user.is_staff %}
-                                    Admin
-                                    {% else %}
-                                    User
-                                    {% endif %}
+                                    {{ request.user.role | capfirst }}
                                 </span>
                             </div>
                         </div>

@@ -71,7 +71,7 @@
                     <div class="text-start">
                         <h5 class="text-muted text-uppercase mb-3" style="font-size: 0.9rem;">Ongoing</h5>
                         <h2 class="fw-bold" style="font-size: 3rem; color: #333;">
-                            {{ events|dictsort:"status"|length }}
+                            {{ ongoing_events }}
                         </h2>
                     </div>
                     <div style="background: rgba(25, 135, 84, 0.1); padding: 15px; border-radius: 12px;">
@@ -94,7 +94,7 @@
                     <div class="text-start">
                         <h5 class="text-muted text-uppercase mb-3" style="font-size: 0.9rem;">Archived</h5>
                         <h2 class="fw-bold" style="font-size: 3rem; color: #333;">
-                            {{ events|length }}
+                            {{ archived_events }}
                         </h2>
                     </div>
                     <div style="background: rgba(108, 117, 125, 0.1); padding: 15px; border-radius: 12px;">

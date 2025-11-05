@@ -96,11 +96,15 @@ def dashboard_view(request):
     elif is_organizer(user):
         organizer_events = Event.objects.filter(organizer__user=user)
         upcoming_events = organizer_events.filter(from_date__gte=timezone.now()).order_by('from_date')
+        ongoing_events = Event.objects.filter(archived=False).count()
+        archived_events = Event.objects.filter(archived=True).count()
 
         context = {
             'role': 'Organizer',
             'organizer_events': organizer_events,
             'upcoming_events': upcoming_events,
+            'ongoing_events': ongoing_events,
+            'archived_events': archived_events
         }
         return render(request, 'dashboard/dash_organizer.html', context)
 
@@ -206,9 +210,12 @@ def users_view(request):
         if not request.user.is_superuser or not request.user.is_staff:
             return redirect("login")
         else:
-            users = User.objects.all()
+            if not request.user.role is "admin":
+                return redirect("dashboard")
+            else:
+                users = User.objects.all()
 
-            return render(request, "management/users/index.html", {"users": users})
+                return render(request, "management/users/index.html", {"users": users})
 
 def create_user_view(request):
     if not request.user.is_authenticated:
