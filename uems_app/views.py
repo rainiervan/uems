@@ -184,9 +184,7 @@ def management_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("dashboard")
-        else:
+        if is_admin(request.user):
             users = User.objects.all()
             events = Event.objects.all()
             organizers = Organizer.objects.all()
@@ -202,29 +200,26 @@ def management_view(request):
             }
 
             return render(request, "management/index.html", context)
+        else:
+            return redirect("dashboard")
 
 def users_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("login")
-        else:
-            if request.user.is_admin():
-                users = User.objects.all()
+        if is_admin(request.user):
+            users = User.objects.all()
 
-                return render(request, "management/users/index.html", {"users": users})
-            else:
-                return redirect("dashboard")
+            return render(request, "management/users/index.html", {"users": users})
+        else:
+            return redirect("dashboard")
                 
 
 def create_user_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("event_list")
-        else:
+        if is_admin(request.user):
             if request.method == "POST":
                 form = UserCreateForm(request.POST)
                 if form.is_valid():
@@ -235,6 +230,8 @@ def create_user_view(request):
                     return redirect("users")
                 else:
                     messages.error(request, "Unable to add new user. Please ensure you filled all the details correctly.")
+        else:
+            return redirect("dashboard")
     
     form = UserCreateForm()        
     return render(request, "management/users/create.html", {"form": form})
@@ -245,9 +242,7 @@ def edit_user_view(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("event_list")
-        else:
+        if is_admin(request.user):
             if request.method == "POST":
                 form = UserCreateForm(request.POST, instance=user)
                 if form.is_valid():
@@ -256,18 +251,20 @@ def edit_user_view(request, pk):
                     return redirect("users")
                 else:
                     messages.error(request, "Unable to add new user. Please ensure you filled all the details correctly.")
+        else:
+            return redirect("dashboard")
     
     form = UserCreateForm(instance=user)
     return render(request, "management/users/edit.html", {"form": form})
 
 def delete_user(request, pk):
-    if not request.user.is_superuser or not request.user.is_staff:
-        return redirect("event_list")
-    else:
+    if is_admin(request.user):
         if request.method == "GET":
             user = get_object_or_404(User, id=pk)
 
             user.delete()
+    else:
+        return redirect("dashboard")
     
     return redirect("users")
 
@@ -275,25 +272,21 @@ def organizers_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("dashboard")
-        else:
-            if request.user.is_admin():
+        if is_admin(request.user) or is_organizer(request.user):
+            if is_admin(request.user):
                 organizers = Organizer.objects.all()
-            elif request.user.is_organizer():
+            elif is_organizer(request.user):
                 organizers = Organizer.objects.filter(user=request.user)
-            else:
-                return redirect("dashboard")
 
             return render(request, "management/organizers/index.html", {"organizers": organizers})
+        else:
+            return redirect("dashboard")
 
 def create_organizer_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("event_list")
-        else:
+        if is_admin(request.user) or is_organizer(request.user):
             if request.method == "POST":
                 form = OrganizerForm(request.POST)
                 if form.is_valid():
@@ -302,6 +295,8 @@ def create_organizer_view(request):
                     return redirect("organizers")
                 else:
                     messages.error(request, "Unable to add new organizer. Please ensure you filled all the details correctly.")
+        else:
+            return redirect("dashboard")
     
     form = OrganizerForm()        
     return render(request, "management/organizers/create.html", {"form": form})
@@ -312,9 +307,7 @@ def edit_organizer_view(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("event_list")
-        else:
+        if is_admin(request.user) or is_organizer(request.user):
             if request.method == "POST":
                 form = OrganizerForm(request.POST, instance=organizer)
                 if form.is_valid():
@@ -323,18 +316,20 @@ def edit_organizer_view(request, pk):
                     return redirect("organizers")
                 else:
                     messages.error(request, "Unable to add new organizer. Please ensure you filled all the details correctly.")
+        else:
+            return redirect("dashboard")
     
     form = OrganizerForm(instance=organizer)
     return render(request, "management/organizers/edit.html", {"form": form})
 
 def delete_organizer(request, pk):
-    if not request.user.is_superuser or not request.user.is_staff:
-        return redirect("event_list")
-    else:
+    if is_admin(request.user) or is_organizer(request.user):
         if request.method == "GET":
             organizer = get_object_or_404(Organizer, id=pk)
 
             organizer.delete()
+    else:
+        return redirect("dashboard")
     
     return redirect("organizers")
 
@@ -342,20 +337,18 @@ def tickets_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("login")
-        else:
+        if is_admin(request.user) or is_organizer(request.user):
             tickets = Ticket.objects.all()
 
             return render(request, "management/tickets/index.html", {"tickets": tickets})
+        else:
+            return redirect("dashboard")
 
 def create_ticket_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("event_list")
-        else:
+        if is_admin(request.user) or is_organizer(request.user):
             if request.method == "POST":
                 form = TicketForm(request.POST)
                 if form.is_valid():
@@ -364,6 +357,8 @@ def create_ticket_view(request):
                     return redirect("tickets")
                 else:
                     messages.error(request, "Unable to add new ticket. Please ensure you filled all the details correctly.")
+        else:
+            return redirect("dashboard")
     
     form = TicketForm()        
     return render(request, "management/tickets/create.html", {"form": form})
@@ -374,9 +369,7 @@ def edit_ticket_view(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("event_list")
-        else:
+        if is_admin(request.user) or is_organizer(request.user):
             if request.method == "POST":
                 form = TicketForm(request.POST, instance=ticket)
                 if form.is_valid():
@@ -385,18 +378,20 @@ def edit_ticket_view(request, pk):
                     return redirect("tickets")
                 else:
                     messages.error(request, "Unable to add new ticket. Please ensure you filled all the details correctly.")
+        else:
+            return redirect("dashboard")
     
     form = TicketForm(instance=ticket)
     return render(request, "management/tickets/edit.html", {"form": form})
 
 def delete_ticket(request, pk):
-    if not request.user.is_superuser or not request.user.is_staff:
-        return redirect("event_list")
-    else:
+    if is_admin(request.user) or is_organizer(request.user):
         if request.method == "GET":
             ticket = get_object_or_404(Ticket, id=pk)
 
             ticket.delete()
+    else:
+        return redirect("dashboard")
     
     return redirect("tickets")
 
@@ -404,20 +399,18 @@ def venues_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("login")
-        else:
+        if is_admin(request.user) or is_organizer(request.user):
             venues = Venue.objects.all()
 
             return render(request, "management/venues/index.html", {"venues": venues})
+        else:
+            return redirect("dashboard")
 
 def create_venue_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("event_list")
-        else:
+        if is_admin(request.user) or is_organizer(request.user):
             if request.method == "POST":
                 form = VenueForm(request.POST)
                 if form.is_valid():
@@ -426,6 +419,8 @@ def create_venue_view(request):
                     return redirect("venues")
                 else:
                     messages.error(request, "Unable to add new venue. Please ensure you filled all the details correctly.")
+        else:
+            return redirect("dashboard")
     
     form = VenueForm()        
     return render(request, "management/venues/create.html", {"form": form})
@@ -436,9 +431,7 @@ def edit_venue_view(request, pk):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-        if not request.user.is_superuser or not request.user.is_staff:
-            return redirect("event_list")
-        else:
+        if is_admin(request.user) or is_organizer(request.user):
             if request.method == "POST":
                 form = VenueForm(request.POST, instance=venue)
                 if form.is_valid():
@@ -447,18 +440,20 @@ def edit_venue_view(request, pk):
                     return redirect("venues")
                 else:
                     messages.error(request, "Unable to add new venue. Please ensure you filled all the details correctly.")
+        else:
+            return redirect("dashboard")
     
     form = VenueForm(instance=venue)
     return render(request, "management/venues/edit.html", {"form": form})
 
 def delete_venue(request, pk):
-    if not request.user.is_superuser or not request.user.is_staff:
-        return redirect("event_list")
-    else:
+    if is_admin(request.user) or is_organizer(request.user):
         if request.method == "GET":
             venue = get_object_or_404(Venue, id=pk)
 
             venue.delete()
+    else:
+        return redirect("dashboard")
     
     return redirect("venues")
 
