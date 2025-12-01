@@ -180,29 +180,6 @@ def profile_view(request):
 
     return render(request, "profile/index.html", context)
 
-def management_view(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    else:
-        if is_admin(request.user):
-            users = User.objects.all()
-            events = Event.objects.all()
-            organizers = Organizer.objects.all()
-            tickets = Ticket.objects.all()
-            venues = Venue.objects.all()
-
-            context = {
-                "users": users,
-                "events": events,
-                "organizers": organizers,
-                "tickets": tickets,
-                "venues": venues
-            }
-
-            return render(request, "management/index.html", context)
-        else:
-            return redirect("dashboard")
-
 def users_view(request):
     if not request.user.is_authenticated:
         return redirect("login")
@@ -530,4 +507,24 @@ class EventDeleteView(DeleteView):
     
 # ---------- Management View ----------
 def management_view(request):
-    return render(request, 'management/index.html')
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        if is_admin(request.user):
+            users = User.objects.all()
+            events = Event.objects.all()
+            organizers = Organizer.objects.all()
+            tickets = Ticket.objects.all()
+            venues = Venue.objects.all()
+
+            context = {
+                "users": users,
+                "events": events,
+                "organizers": organizers,
+                "tickets": tickets,
+                "venues": venues
+            }
+
+            return render(request, "management/index.html", context)
+        else:
+            return redirect("dashboard")
