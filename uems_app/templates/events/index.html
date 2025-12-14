@@ -209,7 +209,7 @@
 <script>
     document.getElementById('events').addEventListener('keyup', function () {
         const query = this.value.toLowerCase();
-        document.querySelectorAll('#eventsList .card').forEach(card => {
+        document.querySelectorAll('#eventsList .col').forEach(card => {
             const text = card.textContent.toLowerCase();
             card.style.display = text.includes(query) ? '' : 'none';
         });
